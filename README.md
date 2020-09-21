@@ -11,7 +11,7 @@ we use that to allow the user to run scripts to control the standard turtle.
 
 Run the application with the path to a script:
 
-````
+```
 ./turtle ./foo.in
 ```
 
@@ -19,6 +19,9 @@ The generated output will be saved in `turtle.png`, and an animation will be sav
 
 ![Result](turtle.png)
 ![Result Animated](turtle.gif)
+
+You can find example scripts beneath [_examples/](_examples/)
+
 
 ## Words
 
