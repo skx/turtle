@@ -21,10 +21,12 @@ rm $t
 set -e
 
 # Run the linter-tool
-echo "Running golint on $i"
+echo "Running golint .."
 golint -set_exit_status ./...
 
 # Run the vet-tool
-echo "Running go vet $i"
+echo "Running go vet .."
 go vet ./...
-done
+
+
+exit 0
