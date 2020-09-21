@@ -40,3 +40,8 @@ The following words are defined:
   * Pop one word from the stack, increase the movement direction by that many degrees.
 * `direction`
   * Pop one word from the stack, set the direction to that value.
+
+
+# Github Setup
+
+This repository is configured to run tests upon every commit, and when pull-requests are created/updated.  The testing is carried out via [.github/run-tests.sh](.github/run-tests.sh) which is used by the [github-action-tester](https://github.com/skx/github-action-tester) action.
