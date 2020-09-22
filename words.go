@@ -6,9 +6,7 @@ import (
 	"math"
 )
 
-// set the direction
-//
-// NOTE: This doesn't have any bearing on the animation.
+// set the direction, absolutely.
 func direction() error {
 	val, err := e.Stack.Pop()
 	if err != nil {
@@ -33,7 +31,7 @@ func forward() error {
 	return nil
 }
 
-// pen moves to x,y.
+// pen teleports to x,y.
 func move() error {
 	y, err := e.Stack.Pop()
 	if err != nil {
@@ -49,8 +47,6 @@ func move() error {
 }
 
 // Set the pen up/down
-//
-// NOTE: This doesn't have any bearing on the animation.
 func pen() error {
 	val, err := e.Stack.Pop()
 	if err != nil {
@@ -64,16 +60,16 @@ func pen() error {
 	return nil
 }
 
-// save the image
+// Save the image, and the animation.
 func save() error {
 
-	// write the PNG
+	// write the image (PNG)
 	err := g.WriteImage("turtle.png")
 	if err != nil {
 		return err
 	}
 
-	// Write the animation
+	// Write the animation (GIF).
 	err = g.WriteAnimation("turtle.gif")
 	if err != nil {
 		return err
