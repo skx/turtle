@@ -3,10 +3,7 @@
 package main
 
 import (
-	"image/gif"
-	"image/png"
 	"math"
-	"os"
 )
 
 // set the direction
@@ -33,9 +30,6 @@ func forward() error {
 	}
 	g.Forward(val)
 
-	// new image for GIF
-	appendAnimation()
-
 	return nil
 }
 
@@ -50,9 +44,6 @@ func move() error {
 		return err
 	}
 	g.Move(x, y)
-
-	// new image for GIF
-	appendAnimation()
 
 	return nil
 }
@@ -77,20 +68,16 @@ func pen() error {
 func save() error {
 
 	// write the PNG
-	f, err := os.Create("turtle.png")
+	err := g.WriteImage("turtle.png")
 	if err != nil {
 		return err
 	}
-	defer f.Close()
-	png.Encode(f, g.Image)
 
-	// write the gif
-	h, err2 := os.OpenFile("turtle.gif", os.O_WRONLY|os.O_CREATE, 0600)
-	if err2 != nil {
-		return err2
+	// Write the animation
+	err = g.WriteAnimation("turtle.gif")
+	if err != nil {
+		return err
 	}
-	defer h.Close()
-	gif.EncodeAll(h, outGif)
 
 	saved = true
 
@@ -107,9 +94,6 @@ func turn() error {
 	// degree -> radians
 	val = val * (math.Pi / 180)
 	g.Turn(val)
-
-	// new image for GIF
-	appendAnimation()
 
 	return nil
 }

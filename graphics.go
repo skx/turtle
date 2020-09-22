@@ -3,7 +3,12 @@ package main
 import (
 	"image"
 	"image/color"
+	"image/gif"
+	"image/png"
 	"math"
+	"os"
+
+	"github.com/andybons/gogif"
 )
 
 // Graphics holds our state.
@@ -13,6 +18,7 @@ type Graphics struct {
 	Orientation float64
 	Color       color.Color
 	Pen         bool
+	Gif         *gif.GIF
 }
 
 // Position holds the coordinates of our pen.
@@ -28,6 +34,7 @@ func NewGraphics(i *image.RGBA, starting Position) (t *Graphics) {
 		Orientation: 0.0,
 		Color:       color.Black,
 		Pen:         true,
+		Gif:         &gif.GIF{},
 	}
 
 	return
@@ -52,6 +59,21 @@ func (t *Graphics) Forward(dist float64) {
 
 		t.Pos = Position{t.Pos.X + x, t.Pos.Y + y}
 	}
+
+	//
+	// Append to our animation.
+	//
+	// Need to convert from RGBA -> Paletted Image
+	if t.Pen {
+		bounds := t.Image.Bounds()
+		palettedImage := image.NewPaletted(bounds, nil)
+		quantizer := gogif.MedianCutQuantizer{NumColor: 64}
+		quantizer.Quantize(palettedImage, bounds, t.Image, image.Point{})
+
+		// Append the new frame
+		t.Gif.Image = append(t.Gif.Image, palettedImage)
+		t.Gif.Delay = append(t.Gif.Delay, 0)
+	}
 }
 
 // Turn adds the specified number of degrees to our direction.
@@ -72,4 +94,30 @@ func (t *Graphics) PenUp() {
 // PenDown lowers the pen, so movement will draw.
 func (t *Graphics) PenDown() {
 	t.Pen = true
+}
+
+// WriteImage outputs the end result - as a PNG
+func (t *Graphics) WriteImage(name string) error {
+	f, err := os.Create(name)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	err = png.Encode(f, t.Image)
+
+	return err
+}
+
+// WriteAnimation outputs the end result - as a GIF
+func (t *Graphics) WriteAnimation(name string) error {
+
+	// write the gif
+	h, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		return err
+	}
+	defer h.Close()
+	err = gif.EncodeAll(h, t.Gif)
+
+	return err
 }

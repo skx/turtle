@@ -18,11 +18,9 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
-	"image/gif"
 	"io"
 	"os"
 
-	"github.com/andybons/gogif"
 	"github.com/skx/foth/foth/eval"
 )
 
@@ -32,32 +30,8 @@ var e *eval.Eval
 // Graphics-helper, for drawing into our image.
 var g *Graphics
 
-// Image frame.  We write this to `turtle.png` once complete.
-//
-// appendAnimation() also adds this to the GIF we produce each time it
-// is updated.
-var i *image.RGBA
-
-// We generate an output GIF in addition to the output PNG.
-var outGif *gif.GIF
-
 // Did an image get saved?
 var saved bool
-
-// appendAnimation takes the current "i" state and appends it to the
-// GIF object we are maintaining.
-func appendAnimation() {
-
-	// Need to convert from RGBA -> Paletted Image
-	bounds := i.Bounds()
-	palettedImage := image.NewPaletted(bounds, nil)
-	quantizer := gogif.MedianCutQuantizer{NumColor: 64}
-	quantizer.Quantize(palettedImage, bounds, i, image.Point{})
-
-	// Append the new frame
-	outGif.Image = append(outGif.Image, palettedImage)
-	outGif.Delay = append(outGif.Delay, 0)
-}
 
 // Run the user-supplied script.
 func runFORTH(eval *eval.Eval, path string) error {
@@ -101,12 +75,9 @@ func runFORTH(eval *eval.Eval, path string) error {
 func main() {
 
 	// New PNG image - with white background
-	i = image.NewRGBA(image.Rect(0, 0, 300, 300))
+	i := image.NewRGBA(image.Rect(0, 0, 300, 300))
 	c := color.RGBA{255, 255, 255, 255}
 	draw.Draw(i, i.Bounds(), &image.Uniform{c}, image.Point{}, draw.Src)
-
-	// New GIF
-	outGif = &gif.GIF{}
 
 	// Create a new helper to draw into our image.
 	//
