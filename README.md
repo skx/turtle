@@ -26,20 +26,25 @@ Animated output of [_examples/grid.4th](_examples/grid.4th), showing how it was 
 You can find example scripts beneath [_examples/](_examples/)
 
 
+
 ## Words
 
-The following words are defined:
+The following words are defined in [words.go](words.go) (and connected to the interpreter in `main.go`):
 
+* `direction`
+  * Pop one word from the stack, set the direction to that value.
 * `forward`
   * Pop one word from the stack, move that much forward.
 * `move`
-  * Pop two words off the stack, move to the specified coordinates
+  * Pop two words off the stack, move to the specified coordinates.
+  * Note `move` is like a teleport, there is no drawing involved.
 * `pen`
   * Pope one word from the stack, if 0 lift the pen, else lower it.
+  * Drawing only occurs when the pen is down.
+* `save`
+  * Saves the current state of the paper, and the animation of how we got there.
 * `turn`
   * Pop one word from the stack, increase the movement direction by that many degrees.
-* `direction`
-  * Pop one word from the stack, set the direction to that value.
 
 
 # Github Setup
