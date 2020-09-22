@@ -15,11 +15,11 @@ Run the application with the path to a script:
 
 The generated output will be saved in `turtle.png`, and an animation will be saved alongside it as `turtle.gif`:
 
-Rendered output of [_examples/grid.4th](_examples/grid.4th):
+Rendered output of [_examples/squares.4th](_examples/squares.4th):
 
 ![Result](turtle.png)
 
-Animated output of [_examples/grid.4th](_examples/grid.4th), showing how it was created:
+Animated output of [_examples/squares.4th](_examples/squares.4th), showing how it was created:
 
 ![Result Animated](turtle.gif)
 
