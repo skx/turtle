@@ -3,7 +3,7 @@
 This repository contains a trivial implementation of a turtle-graphics
 thing.
 
-We've embedded a simple [FORTH Interpreter](https:/github.com/skx/foth) and
+We've embedded a simple [FORTH Interpreter](https://github.com/skx/foth) and
 we use that to allow the user to run scripts to control the standard turtle.
 
 
